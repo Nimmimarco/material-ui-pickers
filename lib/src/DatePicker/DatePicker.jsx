@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Calendar from './Calendar';
+import MonthSelection from './MonthSelection';
 import YearSelection from './YearSelection';
 import PickerToolbar from '../_shared/PickerToolbar';
 import ToolbarButton from '../_shared/ToolbarButton';
@@ -44,6 +45,7 @@ export class DatePicker extends PureComponent {
 
   state = {
     showYearSelection: this.props.openToYearSelection,
+    showMonthSelection: this.props.openToMonthSelection
   }
 
   get date() {
@@ -71,6 +73,9 @@ export class DatePicker extends PureComponent {
     this.setState({ showYearSelection: false });
   }
 
+  openMonthSelection = () => {
+    this.setState({ showMonthSelection: true })
+  }
 
   render() {
     const {
@@ -84,7 +89,7 @@ export class DatePicker extends PureComponent {
       utils,
       shouldDisableDate,
     } = this.props;
-    const { showYearSelection } = this.state;
+    const { showYearSelection, showMonthSelection } = this.state;
 
     return (
       <Fragment>
@@ -100,7 +105,7 @@ export class DatePicker extends PureComponent {
             type="display1"
             onClick={this.openCalendar}
             selected={!showYearSelection}
-            label={utils.getDatePickerHeaderText(this.date)}
+            label={showMonthSelection ? utils.getMonthPickerHeaderText(this.date) : utils.getDatePickerHeaderText(this.date)}
           />
         </PickerToolbar>
 
@@ -120,7 +125,21 @@ export class DatePicker extends PureComponent {
                 utils={utils}
               />
             :
-              <Calendar
+            showMonthSelection ?
+              <MonthSelection
+                date={this.date}
+                onChange={onChange}
+                disablePast={disablePast}
+                disableFuture={disableFuture}
+                minDate={this.minDate}
+                maxDate={this.maxDate}
+                leftArrowIcon={leftArrowIcon}
+                rightArrowIcon={rightArrowIcon}
+                renderDay={renderDay}
+                utils={utils}
+                shouldDisableDate={shouldDisableDate}
+              />
+            : <Calendar
                 date={this.date}
                 onChange={onChange}
                 disablePast={disablePast}

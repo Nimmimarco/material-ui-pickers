@@ -49,7 +49,7 @@ export default class DatePickerWrapper extends PickerBase {
 
   static defaultProps = {
     value: new Date(),
-    format: 'MMMM Do',
+    //format: 'MMMM Do',
     autoOk: false,
     returnMoment: true,
     minDate: undefined,
@@ -58,6 +58,7 @@ export default class DatePickerWrapper extends PickerBase {
     disableFuture: undefined,
     animateYearScrolling: undefined,
     openToYearSelection: undefined,
+    openToMonthSelection: undefined,
     invalidLabel: undefined,
     leftArrowIcon: undefined,
     rightArrowIcon: undefined,
@@ -80,6 +81,7 @@ export default class DatePickerWrapper extends PickerBase {
       disableFuture,
       animateYearScrolling,
       openToYearSelection,
+      openToMonthSelection,
       returnMoment,
       invalidLabel,
       leftArrowIcon,
@@ -95,7 +97,7 @@ export default class DatePickerWrapper extends PickerBase {
       <ModalWrapper
         ref={this.getRef}
         value={value}
-        format={format}
+        format={format || (openToMonthSelection ? 'MMMM YYYY' : 'MMMM Do')}
         onClear={this.handleClear}
         onAccept={this.handleAccept}
         onChange={this.handleTextFieldChange}
@@ -111,6 +113,7 @@ export default class DatePickerWrapper extends PickerBase {
           disableFuture={disableFuture}
           animateYearScrolling={animateYearScrolling}
           openToYearSelection={openToYearSelection}
+          openToMonthSelection={openToMonthSelection}
           minDate={minDate}
           maxDate={maxDate}
           leftArrowIcon={leftArrowIcon}
